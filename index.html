@@ -6,6 +6,9 @@
 <title>For Reem</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Caveat:wght@400;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap');
+  body {
+  overflow-y: auto;
+}
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -14,6 +17,7 @@
     color: #2c2c2c;
     font-family: 'Special Elite', cursive;
     overflow-x: hidden;
+overflow-y: auto;
   }
 
   /* ??? GRAIN ??? */
@@ -651,8 +655,12 @@ function startExperience() {
   document.getElementById('reel1').classList.add('spinning');
   document.getElementById('reel2').classList.add('spinning');
   document.getElementById('scrollHint').style.opacity = '1';
+
+  const s2 = document.getElementById('screen2');
+  s2.classList.add('visible');
+
   setTimeout(() => {
-    document.getElementById('screen2').scrollIntoView({ behavior: 'smooth' });
+    s2.scrollIntoView({ behavior: 'smooth' });
   }, 600);
 }
 

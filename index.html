@@ -49,7 +49,7 @@ overflow-y: auto;
 
   /* ??? SCREEN 1: CASSETTE ??? */
   .cassette-screen {
-    background: #0f0e0d;
+    background: #111;
     flex-direction: column;
     gap: 34px;                    /* ? was 30px */
   }
@@ -150,7 +150,7 @@ overflow-y: auto;
   }
 
   /* ??? POLAROID ??? */
-  .polaroid-wrap { background: #1a1714; }
+  .polaroid-wrap { background: #111; }
   .polaroid {
     background: #fff;
     padding: 26px 26px 62px;     /* ? was 22px 22px 56px */
@@ -194,7 +194,7 @@ overflow-y: auto;
   }
 
   /* ??? PAPER NOTE ??? */
-  .paper-wrap { background: #151412; }
+  .paper-wrap { background: #111; }
   .paper {
     background: #f4efe8;
     padding: 30px 34px 40px;     /* top = 30px = one rule cycle, first baseline lands on first line */
@@ -231,7 +231,7 @@ overflow-y: auto;
   }
 
   /* ??? SCREEN 4: INTERACTIVE CASSETTE LABEL ??? */
-  .cassette-label-screen { background: #131210; }
+  .cassette-label-screen { background: #111; }
   .label-card {
     background: #f5e6d3;
     width: 380px;
@@ -353,7 +353,8 @@ overflow-y: auto;
     pointer-events: none;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
+    padding-right: 80px;
     opacity: 0;
     transition: opacity 1s ease;
   }
@@ -362,16 +363,46 @@ overflow-y: auto;
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%, #fff, #e8e8e8);
-    box-shadow: 0 0 40px rgba(255,255,255,0.4), 0 0 80px rgba(255,255,255,0.2);
-    transition: transform 2s ease;
+    background: transparent;
+    border: 2px solid rgba(255,255,255,0.8);
+    box-shadow: 0 0 20px rgba(255,255,255,0.3);
+    transition: transform 2s ease, width 2s ease, height 2s ease;
+    position: relative;
   }
   .moon.growing {
-    transform: scale(3.5);
+    width: 140px;
+    height: 140px;
+  }
+  
+  /* Stars scattered around */
+  .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+  }
+  .moon-layer.visible .star {
+    opacity: 0.8;
+  }
+  .star:nth-child(2) { top: 20%; left: 15%; animation: twinkle 3s infinite; }
+  .star:nth-child(3) { top: 35%; left: 25%; animation: twinkle 4s infinite 0.5s; }
+  .star:nth-child(4) { top: 15%; left: 70%; animation: twinkle 3.5s infinite 1s; }
+  .star:nth-child(5) { top: 45%; left: 80%; animation: twinkle 4.5s infinite 1.5s; }
+  .star:nth-child(6) { top: 65%; left: 20%; animation: twinkle 3s infinite 2s; }
+  .star:nth-child(7) { top: 75%; left: 75%; animation: twinkle 4s infinite 0.8s; }
+  .star:nth-child(8) { top: 85%; left: 35%; animation: twinkle 3.5s infinite 1.2s; }
+  .star:nth-child(9) { top: 55%; left: 90%; animation: twinkle 4s infinite 0.3s; }
+  
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
   }
 
   /* ??? PHOTO FRAME ??? */
-  .photo-wrap { background: #141310; }
+  .photo-wrap { background: #111; }
   .photo-frame {
     border: 8px solid #e8ddd0;    /* ? was 7px */
     box-shadow: 0 8px 28px rgba(0,0,0,0.6), inset 0 0 0 1px #c9b99a;
@@ -394,17 +425,18 @@ overflow-y: auto;
   }
   .photo-frame-caption {
     position: absolute;
-    bottom: 14px;                 /* ? was 12px */
+    bottom: 18px;                 /* increased from 14px to move it lower */
     left: 0; right: 0;
     text-align: center;
     font-family: 'Caveat', cursive;
     font-size: 20px;              /* ? was 19px */
     color: #5a4a3a;
+    padding: 0 20px;              /* added padding to keep text away from edges */
   }
 
   /* ??? SCREEN 10: FINAL ??? */
   .final-screen {
-    background: #0f0e0d;
+    background: #111;
     flex-direction: column;
     gap: 28px;                    /* ? was 24px */
     text-align: center;
@@ -500,50 +532,50 @@ overflow-y: auto;
   <div class="flower-layer" id="flowerLayer">
     <svg viewBox="0 0 800 1400" preserveAspectRatio="xMidYMid slice">
       <!--
-        Four botanical clusters in the corners of the full viewport.
+        Four botanical clusters repositioned to be visible within the screen bounds.
         White tattoo line-art. stroke-dashoffset animates to 0 on .drawn.
       -->
 
-      <!-- CLUSTER A — bottom-left -->
-      <path class="f-path" d="M 20,1400 Q 40,1300 80,1220 Q 105,1170 130,1110"/>
-      <path class="f-path" d="M 55,1310 Q 20,1280 8,1240 Q 28,1270 55,1310"/>
-      <path class="f-path" d="M 75,1240 Q 110,1210 125,1175 Q 100,1205 75,1240"/>
-      <path class="f-path" d="M 130,1110 Q 122,1080 130,1050 Q 138,1080 130,1110"/>
-      <path class="f-path" d="M 130,1110 Q 100,1090 85,1055 Q 108,1085 130,1110"/>
-      <path class="f-path" d="M 130,1110 Q 158,1088 175,1050 Q 148,1085 130,1110"/>
-      <path class="f-path" d="M 90,1195 Q 58,1170 48,1135 Q 68,1160 90,1195"/>
-      <path class="f-path" d="M 60,1275 Q 35,1255 30,1225 Q 42,1250 60,1275"/>
+      <!-- CLUSTER A — bottom-left (moved more toward center) -->
+      <path class="f-path" d="M 120,1300 Q 140,1200 180,1120 Q 205,1070 230,1010"/>
+      <path class="f-path" d="M 155,1210 Q 120,1180 108,1140 Q 128,1170 155,1210"/>
+      <path class="f-path" d="M 175,1140 Q 210,1110 225,1075 Q 200,1105 175,1140"/>
+      <path class="f-path" d="M 230,1010 Q 222,980 230,950 Q 238,980 230,1010"/>
+      <path class="f-path" d="M 230,1010 Q 200,990 185,955 Q 208,985 230,1010"/>
+      <path class="f-path" d="M 230,1010 Q 258,988 275,950 Q 248,985 230,1010"/>
+      <path class="f-path" d="M 190,1095 Q 158,1070 148,1035 Q 168,1060 190,1095"/>
+      <path class="f-path" d="M 160,1175 Q 135,1155 130,1125 Q 142,1150 160,1175"/>
 
-      <!-- CLUSTER B — top-left -->
-      <path class="f-path" d="M 10,0 Q 30,80 70,155 Q 95,200 125,250"/>
-      <path class="f-path" d="M 42,75 Q 72,60 88,30 Q 65,58 42,75"/>
-      <path class="f-path" d="M 60,140 Q 40,165 25,195 Q 48,160 60,140"/>
-      <path class="f-path" d="M 125,250 Q 105,232 90,210 Q 108,238 125,250"/>
-      <path class="f-path" d="M 125,250 Q 148,230 165,208 Q 140,238 125,250"/>
-      <path class="f-path" d="M 125,250 Q 110,272 95,292 Q 115,268 125,250"/>
-      <path class="f-path" d="M 125,250 Q 142,275 158,298 Q 135,268 125,250"/>
-      <circle class="f-path" cx="125" cy="250" r="5"/>
-      <path class="f-path" d="M 80,168 Q 75,148 82,130 Q 88,150 80,168"/>
+      <!-- CLUSTER B — top-left (moved more toward center) -->
+      <path class="f-path" d="M 110,100 Q 130,180 170,255 Q 195,300 225,350"/>
+      <path class="f-path" d="M 142,175 Q 172,160 188,130 Q 165,158 142,175"/>
+      <path class="f-path" d="M 160,240 Q 140,265 125,295 Q 148,260 160,240"/>
+      <path class="f-path" d="M 225,350 Q 205,332 190,310 Q 208,338 225,350"/>
+      <path class="f-path" d="M 225,350 Q 248,330 265,308 Q 240,338 225,350"/>
+      <path class="f-path" d="M 225,350 Q 210,372 195,392 Q 215,368 225,350"/>
+      <path class="f-path" d="M 225,350 Q 242,375 258,398 Q 235,368 225,350"/>
+      <circle class="f-path" cx="225" cy="350" r="5"/>
+      <path class="f-path" d="M 180,268 Q 175,248 182,230 Q 188,250 180,268"/>
 
-      <!-- CLUSTER C — top-right -->
-      <path class="f-path" d="M 780,0 Q 760,90 725,170 Q 700,220 672,275"/>
-      <path class="f-path" d="M 755,82 Q 728,68 712,38 Q 735,65 755,82"/>
-      <path class="f-path" d="M 738,158 Q 758,185 775,215 Q 752,178 738,158"/>
-      <path class="f-path" d="M 672,275 Q 692,258 708,235 Q 690,265 672,275"/>
-      <path class="f-path" d="M 672,275 Q 650,260 635,240 Q 658,268 672,275"/>
-      <path class="f-path" d="M 672,275 Q 668,255 672,238 Q 676,255 672,275"/>
-      <path class="f-path" d="M 710,195 Q 740,178 755,148 Q 728,175 710,195"/>
+      <!-- CLUSTER C — top-right (moved more toward center) -->
+      <path class="f-path" d="M 680,100 Q 660,190 625,270 Q 600,320 572,375"/>
+      <path class="f-path" d="M 655,182 Q 628,168 612,138 Q 635,165 655,182"/>
+      <path class="f-path" d="M 638,258 Q 658,285 675,315 Q 652,278 638,258"/>
+      <path class="f-path" d="M 572,375 Q 592,358 608,335 Q 590,365 572,375"/>
+      <path class="f-path" d="M 572,375 Q 550,360 535,340 Q 558,368 572,375"/>
+      <path class="f-path" d="M 572,375 Q 568,355 572,338 Q 576,355 572,375"/>
+      <path class="f-path" d="M 610,295 Q 640,278 655,248 Q 628,275 610,295"/>
 
-      <!-- CLUSTER D — bottom-right -->
-      <path class="f-path" d="M 790,1400 Q 765,1295 728,1210 Q 705,1158 678,1105"/>
-      <path class="f-path" d="M 758,1305 Q 788,1275 800,1238 Q 775,1278 758,1305"/>
-      <path class="f-path" d="M 735,1225 Q 708,1198 690,1165 Q 718,1205 735,1225"/>
-      <path class="f-path" d="M 678,1105 Q 658,1085 642,1060 Q 665,1092 678,1105"/>
-      <path class="f-path" d="M 678,1105 Q 700,1082 718,1055 Q 695,1092 678,1105"/>
-      <path class="f-path" d="M 678,1105 Q 662,1128 648,1148 Q 672,1122 678,1105"/>
-      <path class="f-path" d="M 678,1105 Q 696,1130 712,1152 Q 690,1122 678,1105"/>
-      <circle class="f-path" cx="678" cy="1105" r="5"/>
-      <path class="f-path" d="M 748,1268 Q 772,1248 782,1215 Q 762,1242 748,1268"/>
+      <!-- CLUSTER D — bottom-right (moved more toward center) -->
+      <path class="f-path" d="M 690,1300 Q 665,1195 628,1110 Q 605,1058 578,1005"/>
+      <path class="f-path" d="M 658,1205 Q 688,1175 700,1138 Q 675,1178 658,1205"/>
+      <path class="f-path" d="M 635,1125 Q 608,1098 590,1065 Q 618,1105 635,1125"/>
+      <path class="f-path" d="M 578,1005 Q 558,985 542,960 Q 565,992 578,1005"/>
+      <path class="f-path" d="M 578,1005 Q 600,982 618,955 Q 595,992 578,1005"/>
+      <path class="f-path" d="M 578,1005 Q 562,1028 548,1048 Q 572,1022 578,1005"/>
+      <path class="f-path" d="M 578,1005 Q 596,1030 612,1052 Q 590,1022 578,1005"/>
+      <circle class="f-path" cx="578" cy="1005" r="5"/>
+      <path class="f-path" d="M 648,1168 Q 672,1148 682,1115 Q 662,1142 648,1168"/>
     </svg>
   </div>
 
@@ -605,9 +637,17 @@ overflow-y: auto;
      SCREEN 8 — Cassette label — Still Mine by Ashley Singh
      ???????????????????????????????????????????????????????? -->
 <section class="screen cassette-label-screen visible" id="screen8">
-  <!-- Moon background layer -->
+  <!-- Moon background layer with stars -->
   <div class="moon-layer" id="moonLayer">
     <div class="moon" id="moon"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
   </div>
 
   <!-- The cassette label card -->
@@ -724,6 +764,11 @@ function toggleScreen4() {
   console.log('Reveal element:', reveal);
 
   if (!screen4Playing) {
+    // Stop Screen 8 if it's playing
+    if (screen8Playing) {
+      toggleScreen8();
+    }
+    
     // ?? PLAY ??
     screen4Playing = true;
     btn.classList.add('playing');
@@ -784,6 +829,11 @@ function toggleScreen8() {
   console.log('Moon element:', moon);
 
   if (!screen8Playing) {
+    // Stop Screen 4 if it's playing
+    if (screen4Playing) {
+      toggleScreen4();
+    }
+    
     // ?? PLAY ??
     screen8Playing = true;
     btn.classList.add('playing');

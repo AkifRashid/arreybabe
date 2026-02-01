@@ -312,8 +312,8 @@ overflow-y: auto;
   /* Each petal/stem path animates its length in */
   .f-path {
     fill: none;
-    stroke: rgba(255,255,255,0.55);
-    stroke-width: 1;
+    stroke: rgba(255,255,255,0.7);
+    stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
     stroke-dasharray: 1200;       /* large enough to exceed every path in the SVG */
@@ -425,7 +425,7 @@ overflow-y: auto;
   }
   .photo-frame-caption {
     position: absolute;
-    bottom: 18px;                 /* increased from 14px to move it lower */
+    bottom: 24px;                 /* increased significantly to move it well below the image */
     left: 0; right: 0;
     text-align: center;
     font-family: 'Caveat', cursive;
@@ -530,52 +530,52 @@ overflow-y: auto;
 
   <!-- Flower layer: fills the full dark background behind the card -->
   <div class="flower-layer" id="flowerLayer">
-    <svg viewBox="0 0 800 1400" preserveAspectRatio="xMidYMid slice">
+    <svg viewBox="0 0 800 1400" preserveAspectRatio="xMidYMid meet">
       <!--
-        Four botanical clusters repositioned to be visible within the screen bounds.
+        Four botanical clusters positioned around the center card area.
         White tattoo line-art. stroke-dashoffset animates to 0 on .drawn.
       -->
 
-      <!-- CLUSTER A — bottom-left (moved more toward center) -->
-      <path class="f-path" d="M 120,1300 Q 140,1200 180,1120 Q 205,1070 230,1010"/>
-      <path class="f-path" d="M 155,1210 Q 120,1180 108,1140 Q 128,1170 155,1210"/>
-      <path class="f-path" d="M 175,1140 Q 210,1110 225,1075 Q 200,1105 175,1140"/>
-      <path class="f-path" d="M 230,1010 Q 222,980 230,950 Q 238,980 230,1010"/>
-      <path class="f-path" d="M 230,1010 Q 200,990 185,955 Q 208,985 230,1010"/>
-      <path class="f-path" d="M 230,1010 Q 258,988 275,950 Q 248,985 230,1010"/>
-      <path class="f-path" d="M 190,1095 Q 158,1070 148,1035 Q 168,1060 190,1095"/>
-      <path class="f-path" d="M 160,1175 Q 135,1155 130,1125 Q 142,1150 160,1175"/>
+      <!-- CLUSTER A — bottom-left -->
+      <path class="f-path" d="M 80,1100 Q 100,1000 140,920 Q 165,870 190,810"/>
+      <path class="f-path" d="M 115,1010 Q 80,980 68,940 Q 88,970 115,1010"/>
+      <path class="f-path" d="M 135,940 Q 170,910 185,875 Q 160,905 135,940"/>
+      <path class="f-path" d="M 190,810 Q 182,780 190,750 Q 198,780 190,810"/>
+      <path class="f-path" d="M 190,810 Q 160,790 145,755 Q 168,785 190,810"/>
+      <path class="f-path" d="M 190,810 Q 218,788 235,750 Q 208,785 190,810"/>
+      <path class="f-path" d="M 150,895 Q 118,870 108,835 Q 128,860 150,895"/>
+      <path class="f-path" d="M 120,975 Q 95,955 90,925 Q 102,950 120,975"/>
 
-      <!-- CLUSTER B — top-left (moved more toward center) -->
-      <path class="f-path" d="M 110,100 Q 130,180 170,255 Q 195,300 225,350"/>
-      <path class="f-path" d="M 142,175 Q 172,160 188,130 Q 165,158 142,175"/>
-      <path class="f-path" d="M 160,240 Q 140,265 125,295 Q 148,260 160,240"/>
-      <path class="f-path" d="M 225,350 Q 205,332 190,310 Q 208,338 225,350"/>
-      <path class="f-path" d="M 225,350 Q 248,330 265,308 Q 240,338 225,350"/>
-      <path class="f-path" d="M 225,350 Q 210,372 195,392 Q 215,368 225,350"/>
-      <path class="f-path" d="M 225,350 Q 242,375 258,398 Q 235,368 225,350"/>
-      <circle class="f-path" cx="225" cy="350" r="5"/>
-      <path class="f-path" d="M 180,268 Q 175,248 182,230 Q 188,250 180,268"/>
+      <!-- CLUSTER B — top-left -->
+      <path class="f-path" d="M 70,300 Q 90,380 130,455 Q 155,500 185,550"/>
+      <path class="f-path" d="M 102,375 Q 132,360 148,330 Q 125,358 102,375"/>
+      <path class="f-path" d="M 120,440 Q 100,465 85,495 Q 108,460 120,440"/>
+      <path class="f-path" d="M 185,550 Q 165,532 150,510 Q 168,538 185,550"/>
+      <path class="f-path" d="M 185,550 Q 208,530 225,508 Q 200,538 185,550"/>
+      <path class="f-path" d="M 185,550 Q 170,572 155,592 Q 175,568 185,550"/>
+      <path class="f-path" d="M 185,550 Q 202,575 218,598 Q 195,568 185,550"/>
+      <circle class="f-path" cx="185" cy="550" r="5"/>
+      <path class="f-path" d="M 140,468 Q 135,448 142,430 Q 148,450 140,468"/>
 
-      <!-- CLUSTER C — top-right (moved more toward center) -->
-      <path class="f-path" d="M 680,100 Q 660,190 625,270 Q 600,320 572,375"/>
-      <path class="f-path" d="M 655,182 Q 628,168 612,138 Q 635,165 655,182"/>
-      <path class="f-path" d="M 638,258 Q 658,285 675,315 Q 652,278 638,258"/>
-      <path class="f-path" d="M 572,375 Q 592,358 608,335 Q 590,365 572,375"/>
-      <path class="f-path" d="M 572,375 Q 550,360 535,340 Q 558,368 572,375"/>
-      <path class="f-path" d="M 572,375 Q 568,355 572,338 Q 576,355 572,375"/>
-      <path class="f-path" d="M 610,295 Q 640,278 655,248 Q 628,275 610,295"/>
+      <!-- CLUSTER C — top-right -->
+      <path class="f-path" d="M 720,300 Q 700,390 665,470 Q 640,520 612,575"/>
+      <path class="f-path" d="M 695,382 Q 668,368 652,338 Q 675,365 695,382"/>
+      <path class="f-path" d="M 678,458 Q 698,485 715,515 Q 692,478 678,458"/>
+      <path class="f-path" d="M 612,575 Q 632,558 648,535 Q 630,565 612,575"/>
+      <path class="f-path" d="M 612,575 Q 590,560 575,540 Q 598,568 612,575"/>
+      <path class="f-path" d="M 612,575 Q 608,555 612,538 Q 616,555 612,575"/>
+      <path class="f-path" d="M 650,495 Q 680,478 695,448 Q 668,475 650,495"/>
 
-      <!-- CLUSTER D — bottom-right (moved more toward center) -->
-      <path class="f-path" d="M 690,1300 Q 665,1195 628,1110 Q 605,1058 578,1005"/>
-      <path class="f-path" d="M 658,1205 Q 688,1175 700,1138 Q 675,1178 658,1205"/>
-      <path class="f-path" d="M 635,1125 Q 608,1098 590,1065 Q 618,1105 635,1125"/>
-      <path class="f-path" d="M 578,1005 Q 558,985 542,960 Q 565,992 578,1005"/>
-      <path class="f-path" d="M 578,1005 Q 600,982 618,955 Q 595,992 578,1005"/>
-      <path class="f-path" d="M 578,1005 Q 562,1028 548,1048 Q 572,1022 578,1005"/>
-      <path class="f-path" d="M 578,1005 Q 596,1030 612,1052 Q 590,1022 578,1005"/>
-      <circle class="f-path" cx="578" cy="1005" r="5"/>
-      <path class="f-path" d="M 648,1168 Q 672,1148 682,1115 Q 662,1142 648,1168"/>
+      <!-- CLUSTER D — bottom-right -->
+      <path class="f-path" d="M 710,1100 Q 685,995 648,910 Q 625,858 598,805"/>
+      <path class="f-path" d="M 678,1005 Q 708,975 720,938 Q 695,978 678,1005"/>
+      <path class="f-path" d="M 655,925 Q 628,898 610,865 Q 638,905 655,925"/>
+      <path class="f-path" d="M 598,805 Q 578,785 562,760 Q 585,792 598,805"/>
+      <path class="f-path" d="M 598,805 Q 620,782 638,755 Q 615,792 598,805"/>
+      <path class="f-path" d="M 598,805 Q 582,828 568,848 Q 592,822 598,805"/>
+      <path class="f-path" d="M 598,805 Q 616,830 632,852 Q 610,822 598,805"/>
+      <circle class="f-path" cx="598" cy="805" r="5"/>
+      <path class="f-path" d="M 668,968 Q 692,948 702,915 Q 682,942 668,968"/>
     </svg>
   </div>
 

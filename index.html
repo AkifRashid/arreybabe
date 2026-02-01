@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- VERSION: 2024-caption-fix-v6 -->
+<!-- VERSION: 2024-moon-mobile-fix-v7 -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For Reem</title>
@@ -414,20 +414,24 @@ overflow-y: auto;
   /* Mobile adjustments */
   @media (max-width: 768px) {
     .moon-layer {
-      padding-right: 40px;
+      padding-right: 20px;
+      justify-content: center;  /* center it on mobile for better visibility */
     }
     .moon {
-      width: 60px;
-      height: 60px;
-      border-width: 3px;
+      width: 70px;
+      height: 70px;
+      border-width: 4px;
+      border-color: rgba(255,255,255,1);
+      box-shadow: 0 0 30px rgba(255,255,255,0.7), 0 0 60px rgba(255,255,255,0.4);
     }
     .moon.growing {
-      width: 100px;
-      height: 100px;
+      width: 120px;
+      height: 120px;
     }
     .star {
-      width: 4px;
-      height: 4px;
+      width: 5px;
+      height: 5px;
+      box-shadow: 0 0 8px rgba(255,255,255,1);
     }
   }
 
@@ -455,7 +459,7 @@ overflow-y: auto;
   }
   .photo-frame-caption {
     position: absolute;
-    bottom: 6px;                 /* closer to the bottom of the frame */
+    bottom: 12px;                 /* closer to the bottom of the frame */
     left: 0; right: 0;
     text-align: center;
     font-family: 'Caveat', cursive;

@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Reem</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Caveat:wght@400;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap');
+  body {
+  overflow-y: auto;
+}
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #111;
+    color: #2c2c2c;
+    font-family: 'Special Elite', cursive;
+    overflow-x: hidden;
+overflow-y: auto;
+  }
+
+  /* ??? GRAIN ??? */
+  .grain-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 1;
+  }
+  .grain-overlay canvas { width: 100%; height: 100%; }
+
+  /* ??? SCREENS ??? */
+  .screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 32px;          /* ? was 60px 20px */
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    position: relative;
+  }
+  .screen.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ??? SCREEN 1: CASSETTE ??? */
+  .cassette-screen {
+    background: #0f0e0d;
+    flex-direction: column;
+    gap: 34px;                    /* ? was 30px */
+  }
+  .cassette-title {
+    font-family: 'Caveat', cursive;
+    color: #d4a574;
+    font-size: 38px;              /* ? was 32px */
+    text-align: center;
+    letter-spacing: 3px;
+  }
+  .cassette {
+    width: 380px;                 /* ? was 340px */
+    max-width: 92vw;
+    height: 230px;                /* ? was 210px */
+    background: linear-gradient(145deg, #2a2a2a, #1f1f1f);
+    border-radius: 14px;
+    border: 2px solid #3a3a3a;
+    position: relative;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+  }
+  .cassette-label {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 256px;                 /* ? was 230px */
+    height: 50px;                 /* ? was 46px */
+    background: #f5e6d3;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cassette-label span {
+    font-family: 'Caveat', cursive;
+    font-size: 20px;              /* ? was 16px */
+    color: #8b6914;
+    font-weight: 600;
+  }
+  .reels {
+    display: flex;
+    gap: 72px;                    /* ? was 70px */
+    margin-top: 12px;
+  }
+  .reel {
+    width: 54px;                  /* ? was 50px */
+    height: 54px;
+    border-radius: 50%;
+    background: #111;
+    border: 3px solid #3a3a3a;
+    position: relative;
+    overflow: hidden;
+  }
+  .reel::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px; height: 16px;   /* ? was 14px */
+    border-radius: 50%;
+    background: #222;
+    border: 2px solid #444;
+  }
+  .reel.spinning { animation: spin 1.2s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .play-btn {
+    width: 62px; height: 62px;   /* ? was 58px */
+    border-radius: 50%;
+    background: #d4a574;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+    transition: transform 0.2s, background 0.2s;
+    margin-top: 4px;
+  }
+  .play-btn:hover { background: #c49a6c; transform: scale(1.05); }
+  .play-btn svg { width: 24px; height: 24px; fill: #1a1a1a; margin-left: 3px; }
+
+  .scroll-hint {
+    font-family: 'Caveat', cursive;
+    color: #666;
+    font-size: 20px;              /* ? was 18px */
+    text-align: center;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  /* ??? POLAROID ??? */
+  .polaroid-wrap { background: #1a1714; }
+  .polaroid {
+    background: #fff;
+    padding: 26px 26px 62px;     /* ? was 22px 22px 56px */
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5), 2px 2px 0 rgba(0,0,0,0.15);
+    max-width: 400px;             /* ? was 360px */
+    width: 100%;
+    position: relative;
+  }
+  .polaroid.rot-r { transform: rotate(1.5deg); }
+  .polaroid.rot-l { transform: rotate(-1.8deg); }
+  .polaroid.rot-0 { transform: rotate(0deg); }
+  .polaroid-img {
+    width: 100%;
+    background: #e8ddd0;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .polaroid-text-inner {
+    padding: 38px 28px;           /* ? was 34px 24px */
+    text-align: center;
+  }
+  .polaroid-caption {
+    position: absolute;
+    bottom: 18px;                 /* ? was 16px */
+    left: 0; right: 0;
+    text-align: center;
+    font-family: 'Caveat', cursive;
+    font-size: 20px;              /* ? was 19px */
+    color: #5a4a3a;
+  }
+  .tape-strip {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 88px; height: 26px;   /* ? was 80px 24px */
+    background: rgba(212, 165, 116, 0.5);
+    border-radius: 2px;
+  }
+
+  /* ??? PAPER NOTE ??? */
+  .paper-wrap { background: #151412; }
+  .paper {
+    background: #f4efe8;
+    padding: 30px 34px 40px;     /* top = 30px = one rule cycle, first baseline lands on first line */
+    max-width: 420px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 6px 26px rgba(0,0,0,0.5);
+    border-radius: 2px;
+  }
+  .paper-lines {
+    background: repeating-linear-gradient(
+      transparent,
+      transparent 29px,
+      #d6c9b0 29px,
+      #d6c9b0 30px                /* rule cycle = 30px */
+    );
+  }
+  .paper-text {
+    font-family: 'Caveat', cursive;
+    font-size: 26px;
+    line-height: 30px;            /* matches rule cycle exactly */
+    color: #6b5a3e;               /* lifted from #3a3020 — legible through grain */
+    position: relative;
+    z-index: 1;
+  }
+  .paper-pin {
+    position: absolute;
+    top: -9px; left: 50%;
+    transform: translateX(-50%);
+    width: 22px; height: 22px;   /* ? was 20px */
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #e8a0a0, #c44);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+  }
+
+  /* ??? SCREEN 4: INTERACTIVE CASSETTE LABEL ??? */
+  .cassette-label-screen { background: #131210; }
+  .label-card {
+    background: #f5e6d3;
+    width: 380px;
+    max-width: 92vw;
+    padding: 42px 32px 38px;
+    border-radius: 6px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.6);
+    position: relative;
+    text-align: center;
+    z-index: 2;                   /* sits above the flower layer */
+  }
+  .label-card::before {
+    content: '?';
+    position: absolute;
+    top: 14px; right: 18px;
+    font-size: 24px;              /* ? was 22px */
+    color: #c49a6c;
+    opacity: 0.6;
+    z-index: 2;
+  }
+  .label-title {
+    font-family: 'Special Elite', cursive;
+    font-size: 13px;
+    color: #8b6914;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 2;
+  }
+  .label-song-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 28px;
+    color: #5a3e10;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Screen 4 play button */
+  .label-play-btn {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: #c49a6c;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    transition: transform 0.2s, background 0.2s, box-shadow 0.3s;
+    position: relative;
+    z-index: 2;
+  }
+  .label-play-btn:hover { background: #b08858; transform: scale(1.06); }
+  .label-play-btn .icon-play  { display: block; }
+  .label-play-btn .icon-pause { display: none; }
+  .label-play-btn.playing .icon-play  { display: none; }
+  .label-play-btn.playing .icon-pause { display: block; }
+  .label-play-btn svg { width: 20px; height: 20px; fill: #fff; }
+  .label-play-btn .icon-play { margin-left: 2px; }
+
+  /* Flower layer — covers the full dark background behind the card */
+  .flower-layer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  .flower-layer.visible { opacity: 1; }
+  .flower-layer svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+  /* Each petal/stem path animates its length in */
+  .f-path {
+    fill: none;
+    stroke: rgba(255,255,255,0.55);
+    stroke-width: 1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1200;       /* large enough to exceed every path in the SVG */
+    stroke-dashoffset: 1200;      /* fully hidden at start */
+    transition: stroke-dashoffset 2.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .f-path.drawn { stroke-dashoffset: 0; }
+
+  /* "I love you" — slides up after flowers */
+  .love-reveal {
+    position: relative;
+    z-index: 2;
+    margin-top: 22px;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity    0.6s ease 0.2s;
+  }
+  .love-reveal.open {
+    max-height: 80px;
+    opacity: 1;
+  }
+  .love-reveal span {
+    font-family: 'Caveat', cursive;
+    font-size: 34px;
+    color: #4a3520;
+    letter-spacing: 1px;
+  }
+
+  /* Moon layer for Screen 8 */
+  .moon-layer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+  .moon-layer.visible { opacity: 1; }
+  .moon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #fff, #e8e8e8);
+    box-shadow: 0 0 40px rgba(255,255,255,0.4), 0 0 80px rgba(255,255,255,0.2);
+    transition: transform 2s ease;
+  }
+  .moon.growing {
+    transform: scale(3.5);
+  }
+
+  /* ??? PHOTO FRAME ??? */
+  .photo-wrap { background: #141310; }
+  .photo-frame {
+    border: 8px solid #e8ddd0;    /* ? was 7px */
+    box-shadow: 0 8px 28px rgba(0,0,0,0.6), inset 0 0 0 1px #c9b99a;
+    max-width: 400px;             /* ? was 360px */
+    width: 100%;
+    background: #fff;
+    padding: 16px 16px 54px;     /* ? was 14px 14px 50px */
+    position: relative;
+  }
+  .photo-placeholder {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: #d5c9b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8a7e6e;
+    font-size: 16px;              /* ? was 15px */
+    font-family: 'Special Elite', cursive;
+  }
+  .photo-frame-caption {
+    position: absolute;
+    bottom: 14px;                 /* ? was 12px */
+    left: 0; right: 0;
+    text-align: center;
+    font-family: 'Caveat', cursive;
+    font-size: 20px;              /* ? was 19px */
+    color: #5a4a3a;
+  }
+
+  /* ??? SCREEN 10: FINAL ??? */
+  .final-screen {
+    background: #0f0e0d;
+    flex-direction: column;
+    gap: 28px;                    /* ? was 24px */
+    text-align: center;
+  }
+  .final-card {
+    background: #f4efe8;
+    padding: 56px 40px;          /* ? was 50px 36px */
+    max-width: 420px;             /* ? was 380px */
+    width: 100%;
+    border-radius: 4px;
+    box-shadow: 0 8px 36px rgba(0,0,0,0.6);
+    position: relative;
+  }
+  .final-text {
+    font-family: 'Caveat', cursive;
+    font-size: 28px;              /* ? was 26px */
+    color: #3a3020;
+    line-height: 36px;            /* ? was 34px */
+  }
+  .final-sign {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 24px;              /* ? was 22px */
+    color: #8b6914;
+    margin-top: 32px;             /* ? was 28px */
+  }
+</style>
+</head>
+<body>
+
+<div class="grain-overlay"><canvas id="grainCanvas"></canvas></div>
+
+<!-- ????????????????????????????????????????????????????????
+     SCREEN 1 — Cassette — "Hey, You"
+     ???????????????????????????????????????????????????????? -->
+<section class="screen cassette-screen visible" id="screen1">
+  <div class="cassette-title">For Reem</div>
+  <div class="cassette">
+    <div class="cassette-label"><span>Hey, You</span></div>
+    <div class="reels">
+      <div class="reel" id="reel1"></div>
+      <div class="reel" id="reel2"></div>
+    </div>
+    <button class="play-btn" onclick="startExperience()">
+      <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+    </button>
+  </div>
+  <div class="scroll-hint" id="scrollHint" style="opacity:0;">? scroll ?</div>
+</section>
+
+<!-- ????????????????????????????????????????????????????????
+     SCREEN 2 — Polaroid — "I recognised you like a song"
+     ???????????????????????????????????????????????????????? -->
+<section class="screen polaroid-wrap visible" id="screen2">
+  <div style="position:relative;">
+    <div class="tape-strip"></div>
+    <div class="polaroid rot-l">
+      <div class="polaroid-img polaroid-text-inner">
+        <p style="font-family:'Caveat',cursive; font-size:24px; color:#3a3020; line-height:30px;">
+          I recognised you like a song —<br>
+          unknown for a moment,<br>
+          in my body before my mind<br>
+          had processed it,<br>
+          then stuck in my ears.
+        </p>
+      </div>
+      <div class="polaroid-caption">It's the only song that makes me want to dance.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ????????????????????????????????????????????????????????
+     SCREEN 3 — Paper note — TV show metaphor
+     ???????????????????????????????????????????????????????? -->
+<section class="screen paper-wrap visible" id="screen3">
+  <div style="position:relative;">
+    <div class="paper-pin"></div>
+    <div class="paper paper-lines">
+      <p class="paper-text">
+        You remind me of what timeless TV shows did. A character fleshed out slowly, until you feel the need to connect with them. Moments of poetic sharpness which leave you stunned and caught in your thoughts. Something to learn, something to laugh about, something to cry over. Cliffhangers which have you coming back every week, staying up a little longer to know more. Humour, drama, lifefulness.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ????????????????????????????????????????????????????????
+     SCREEN 4 — Cassette label — "Baby, I'm Yours"
+     Interactive: play ? flowers bloom across background ? "I love you" reveals
+     ???????????????????????????????????????????????????????? -->
+<section class="screen cassette-label-screen visible" id="screen4">
+
+  <!-- Flower layer: fills the full dark background behind the card -->
+  <div class="flower-layer" id="flowerLayer">
+    <svg viewBox="0 0 800 1400" preserveAspectRatio="xMidYMid slice">
+      <!--
+        Four botanical clusters in the corners of the full viewport.
+        White tattoo line-art. stroke-dashoffset animates to 0 on .drawn.
+      -->
+
+      <!-- CLUSTER A — bottom-left -->
+      <path class="f-path" d="M 20,1400 Q 40,1300 80,1220 Q 105,1170 130,1110"/>
+      <path class="f-path" d="M 55,1310 Q 20,1280 8,1240 Q 28,1270 55,1310"/>
+      <path class="f-path" d="M 75,1240 Q 110,1210 125,1175 Q 100,1205 75,1240"/>
+      <path class="f-path" d="M 130,1110 Q 122,1080 130,1050 Q 138,1080 130,1110"/>
+      <path class="f-path" d="M 130,1110 Q 100,1090 85,1055 Q 108,1085 130,1110"/>
+      <path class="f-path" d="M 130,1110 Q 158,1088 175,1050 Q 148,1085 130,1110"/>
+      <path class="f-path" d="M 90,1195 Q 58,1170 48,1135 Q 68,1160 90,1195"/>
+      <path class="f-path" d="M 60,1275 Q 35,1255 30,1225 Q 42,1250 60,1275"/>
+
+      <!-- CLUSTER B — top-left -->
+      <path class="f-path" d="M 10,0 Q 30,80 70,155 Q 95,200 125,250"/>
+      <path class="f-path" d="M 42,75 Q 72,60 88,30 Q 65,58 42,75"/>
+      <path class="f-path" d="M 60,140 Q 40,165 25,195 Q 48,160 60,140"/>
+      <path class="f-path" d="M 125,250 Q 105,232 90,210 Q 108,238 125,250"/>
+      <path class="f-path" d="M 125,250 Q 148,230 165,208 Q 140,238 125,250"/>
+      <path class="f-path" d="M 125,250 Q 110,272 95,292 Q 115,268 125,250"/>
+      <path class="f-path" d="M 125,250 Q 142,275 158,298 Q 135,268 125,250"/>
+      <circle class="f-path" cx="125" cy="250" r="5"/>
+      <path class="f-path" d="M 80,168 Q 75,148 82,130 Q 88,150 80,168"/>
+
+      <!-- CLUSTER C — top-right -->
+      <path class="f-path" d="M 780,0 Q 760,90 725,170 Q 700,220 672,275"/>
+      <path class="f-path" d="M 755,82 Q 728,68 712,38 Q 735,65 755,82"/>
+      <path class="f-path" d="M 738,158 Q 758,185 775,215 Q 752,178 738,158"/>
+      <path class="f-path" d="M 672,275 Q 692,258 708,235 Q 690,265 672,275"/>
+      <path class="f-path" d="M 672,275 Q 650,260 635,240 Q 658,268 672,275"/>
+      <path class="f-path" d="M 672,275 Q 668,255 672,238 Q 676,255 672,275"/>
+      <path class="f-path" d="M 710,195 Q 740,178 755,148 Q 728,175 710,195"/>
+
+      <!-- CLUSTER D — bottom-right -->
+      <path class="f-path" d="M 790,1400 Q 765,1295 728,1210 Q 705,1158 678,1105"/>
+      <path class="f-path" d="M 758,1305 Q 788,1275 800,1238 Q 775,1278 758,1305"/>
+      <path class="f-path" d="M 735,1225 Q 708,1198 690,1165 Q 718,1205 735,1225"/>
+      <path class="f-path" d="M 678,1105 Q 658,1085 642,1060 Q 665,1092 678,1105"/>
+      <path class="f-path" d="M 678,1105 Q 700,1082 718,1055 Q 695,1092 678,1105"/>
+      <path class="f-path" d="M 678,1105 Q 662,1128 648,1148 Q 672,1122 678,1105"/>
+      <path class="f-path" d="M 678,1105 Q 696,1130 712,1152 Q 690,1122 678,1105"/>
+      <circle class="f-path" cx="678" cy="1105" r="5"/>
+      <path class="f-path" d="M 748,1268 Q 772,1248 782,1215 Q 762,1242 748,1268"/>
+    </svg>
+  </div>
+
+  <!-- The cassette label card — sits above the flowers -->
+  <div class="label-card" id="labelCard4">
+    <div class="label-title">Side A — Track 02</div>
+    <div class="label-song-title">Baby, I'm Yours</div>
+
+    <button class="label-play-btn" id="playBtn4" onclick="toggleScreen4()">
+      <svg class="icon-play"  viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+      <svg class="icon-pause" viewBox="0 0 24 24"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>
+    </button>
+
+    <div class="love-reveal" id="loveReveal">
+      <span>I love you</span>
+    </div>
+  </div>
+</section>
+
+<!-- ????????????????????????????????????????????????????????
+     SCREEN 5 — Photo frame — [base64 image TBD]
+     ???????????????????????????????????????????????????????? -->
+<section class="screen photo-wrap visible" id="screen5">
+  <div class="photo-frame">
+    <img src="assets/64604871-4301-4270-9C9C-BDE8716E6D23_1_105_c.jpeg" style="width:100%; display:block;">
+  </div>
+</section>
+
+<!-- ????????????????????????????????????????????????????????
+     SCREEN 6 — Polaroid — [TBD]
+     ???????????????????????????????????????????????????????? -->
+<section class="screen polaroid-wrap visible" id="screen6">
+  <div style="position:relative;">
+    <div class="tape-strip"></div>
+    <div class="polaroid rot-r">
+      <div class="polaroid-img polaroid-text-inner">
+        <p style="font-family:'Caveat',cursive; font-size:24px; color:#3a3020; line-height:30px;">
+          You make the pandemonium peaceful, you make the mundane grand. You incessant and violently present in my thoughts. I am content with this.
+        </p>
+      </div>
+      <div class="polaroid-caption">Every storm carries me back to you.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ????????????????????????????????????????????????????????
+     SCREEN 7 — Paper note — [TBD]
+     ???????????????????????????????????????????????????????? -->
+<section class="screen paper-wrap visible" id="screen7">
+  <div style="position:relative;">
+    <div class="paper-pin"></div>
+    <div class="paper paper-lines">
+      <p class="paper-text">Bless old friends – on some days, the only purpose they serve is to remind me I existed before you. Left to my own devices, it feels like I cannot remember what I did with my hands before they held yours, I go down memory lane just to find stories to tell you, I wish to make food only for us to share, I wish to make art just for your analytical mind to consider. I wish to bring every bit of wit and foolishness to bare, just for your laughter. So I remind myself there is a me without you, and that I must be a whole person, just to give you something worthy of love.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ????????????????????????????????????????????????????????
+     SCREEN 8 — Cassette label — Still Mine by Ashley Singh
+     ???????????????????????????????????????????????????????? -->
+<section class="screen cassette-label-screen visible" id="screen8">
+  <!-- Moon background layer -->
+  <div class="moon-layer" id="moonLayer">
+    <div class="moon" id="moon"></div>
+  </div>
+
+  <!-- The cassette label card -->
+  <div class="label-card">
+    <div class="label-title">Side B — Track 01</div>
+    <div class="label-song-title">Still Mine</div>
+    <p style="font-family:'Caveat',cursive; font-size:20px; color:#8b6914; line-height:28px; position:relative; z-index:2; margin-bottom: 20px;">
+      Ashley Singh
+    </p>
+
+    <button class="label-play-btn" id="playBtn8" onclick="toggleScreen8()">
+      <svg class="icon-play"  viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+      <svg class="icon-pause" viewBox="0 0 24 24"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>
+    </button>
+  </div>
+</section>
+
+<!-- ????????????????????????????????????????????????????????
+     SCREEN 9 — Photo frame — [TBD]
+     ???????????????????????????????????????????????????????? -->
+<section class="screen photo-wrap visible" id="screen9">
+  <div class="photo-frame">
+    <img src="assets/F969B116-9A4F-4700-96AE-9190C6185C33_1_105_c.jpeg" style="width:100%; display:block;">
+    <div class="photo-frame-caption">We know what our perfect morning looks like, we just need to find our way back.</div>
+  </div>
+</section>
+
+<!-- ????????????????????????????????????????????????????????
+     SCREEN 10 — Final card — signed Akif
+     ???????????????????????????????????????????????????????? -->
+<section class="screen final-screen visible" id="screen10">
+  <div class="final-card">
+    <p class="final-text">For everything you are, thank you for letting me love you.</p>
+    <div class="final-sign">— Akif</div>
+  </div>
+</section>
+
+<!-- ???????????????????????????????????????????????????????????????????
+     SCRIPTS
+     ??????????????????????????????????????????????????????????????????? -->
+<script>
+// ?? GRAIN ??
+const canvas = document.getElementById('grainCanvas');
+const ctx = canvas.getContext('2d');
+function resizeCanvas() {
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+function drawGrain() {
+  const w = canvas.width, h = canvas.height;
+  const imageData = ctx.createImageData(w, h);
+  const d = imageData.data;
+  for (let i = 0; i < d.length; i += 4) {
+    const v = Math.random() * 40;
+    d[i] = d[i+1] = d[i+2] = v;
+    d[i+3] = 35 + Math.random() * 30;
+  }
+  ctx.putImageData(imageData, 0, 0);
+  requestAnimationFrame(drawGrain);
+}
+drawGrain();
+
+// ?? SCROLL FADE-IN ??
+const screens = document.querySelectorAll('.screen');
+console.log('Found screens:', screens.length);
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    console.log('Screen intersecting:', e.target.id, e.isIntersecting);
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      console.log('Added visible class to:', e.target.id);
+    }
+  });
+}, { threshold: 0.15 });
+
+screens.forEach(s => {
+  if (s.id !== 'screen1') {
+    observer.observe(s);
+    console.log('Observing:', s.id);
+  }
+});
+
+// ?? SCREEN 1: start experience ??
+function startExperience() {
+  document.getElementById('reel1').classList.add('spinning');
+  document.getElementById('reel2').classList.add('spinning');
+  document.getElementById('scrollHint').style.opacity = '1';
+
+  const s2 = document.getElementById('screen2');
+  s2.classList.add('visible');
+
+  setTimeout(() => {
+    s2.scrollIntoView({ behavior: 'smooth' });
+  }, 600);
+}
+
+// ?? SCREEN 4: play / pause toggle ??
+const mp3Url = 'assets/09 Baby I\'m Yours.mp3';
+let screen4Audio = null;   // will be an Audio object once MP3 is added
+let screen4Playing = false;
+
+function toggleScreen4() {
+  const btn    = document.getElementById('playBtn4');
+  const flowers = document.getElementById('flowerLayer');
+  const reveal  = document.getElementById('loveReveal');
+
+  console.log('Screen 4 toggle clicked. Currently playing:', screen4Playing);
+  console.log('Button element:', btn);
+  console.log('Flowers element:', flowers);
+  console.log('Reveal element:', reveal);
+
+  if (!screen4Playing) {
+    // ?? PLAY ??
+    screen4Playing = true;
+    btn.classList.add('playing');
+    console.log('Starting Screen 4 playback');
+
+    // 1. Start flowers blooming (staggered)
+    flowers.classList.add('visible');
+    const paths = flowers.querySelectorAll('.f-path');
+    console.log('Found flower paths:', paths.length);
+    paths.forEach((p, i) => {
+      setTimeout(() => p.classList.add('drawn'), i * 120);
+    });
+
+    // 2. Reveal "I love you" after flowers finish (~paths * 120ms + 800ms buffer)
+    const revealDelay = paths.length * 120 + 900;
+    setTimeout(() => reveal.classList.add('open'), revealDelay);
+
+    // 3. Play MP3
+    console.log('Attempting to load audio from:', mp3Url);
+    screen4Audio = new Audio(mp3Url);
+    screen4Audio.play().then(() => {
+      console.log('Screen 4 audio playing successfully');
+    }).catch(err => {
+      console.error('Screen 4 audio play error:', err);
+    });
+
+  } else {
+    // ?? PAUSE ??
+    screen4Playing = false;
+    btn.classList.remove('playing');
+    console.log('Pausing Screen 4');
+
+    // reset flowers
+    flowers.classList.remove('visible');
+    flowers.querySelectorAll('.f-path').forEach(p => p.classList.remove('drawn'));
+
+    // reset reveal
+    reveal.classList.remove('open');
+
+    // pause audio
+    if (screen4Audio) { screen4Audio.pause(); screen4Audio.currentTime = 0; }
+  }
+}
+
+// ?? SCREEN 8: play / pause toggle with moon ??
+const mp3Url8 = 'assets/Ashley_Singh_-_Still_mine_(mp3.pm).mp3';
+let screen8Audio = null;
+let screen8Playing = false;
+
+function toggleScreen8() {
+  const btn = document.getElementById('playBtn8');
+  const moonLayer = document.getElementById('moonLayer');
+  const moon = document.getElementById('moon');
+
+  console.log('Screen 8 toggle clicked. Currently playing:', screen8Playing);
+  console.log('Button element:', btn);
+  console.log('Moon layer element:', moonLayer);
+  console.log('Moon element:', moon);
+
+  if (!screen8Playing) {
+    // ?? PLAY ??
+    screen8Playing = true;
+    btn.classList.add('playing');
+    console.log('Starting Screen 8 playback');
+
+    // 1. Show moon layer
+    moonLayer.classList.add('visible');
+    console.log('Moon layer visible class added');
+    
+    // 2. Start moon growing after a brief delay
+    setTimeout(() => {
+      moon.classList.add('growing');
+      console.log('Moon growing class added');
+    }, 300);
+
+    // 3. Play MP3
+    console.log('Attempting to load audio from:', mp3Url8);
+    screen8Audio = new Audio(mp3Url8);
+    screen8Audio.play().then(() => {
+      console.log('Screen 8 audio playing successfully');
+    }).catch(err => {
+      console.error('Screen 8 audio play error:', err);
+    });
+
+  } else {
+    // ?? PAUSE ??
+    screen8Playing = false;
+    btn.classList.remove('playing');
+    console.log('Pausing Screen 8');
+
+    // reset moon
+    moonLayer.classList.remove('visible');
+    moon.classList.remove('growing');
+
+    // pause audio
+    if (screen8Audio) { screen8Audio.pause(); screen8Audio.currentTime = 0; }
+  }
+}
+
+// Confirm all functions loaded
+console.log('All functions loaded successfully!');
+console.log('toggleScreen4 defined:', typeof toggleScreen4);
+console.log('toggleScreen8 defined:', typeof toggleScreen8);
+</script>
+</body>
+</html>

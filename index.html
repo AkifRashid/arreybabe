@@ -709,7 +709,7 @@ function startExperience() {
 }
 
 // ?? SCREEN 4: play / pause toggle ??
-const mp3Url = 'assets/09 Baby I'm Yours.mp3';
+const mp3Url = 'assets/09 Baby I\'m Yours.mp3';
 let screen4Audio = null;   // will be an Audio object once MP3 is added
 let screen4Playing = false;
 
@@ -822,6 +822,11 @@ function toggleScreen8() {
     if (screen8Audio) { screen8Audio.pause(); screen8Audio.currentTime = 0; }
   }
 }
+
+// Confirm all functions loaded
+console.log('All functions loaded successfully!');
+console.log('toggleScreen4 defined:', typeof toggleScreen4);
+console.log('toggleScreen8 defined:', typeof toggleScreen8);
 </script>
 </body>
 </html>

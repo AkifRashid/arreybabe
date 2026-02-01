@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- VERSION: 2024-flowers-fixed-v3 -->
+<!-- VERSION: 2024-final-fixes-v4 -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For Reem</title>
@@ -217,7 +217,7 @@ overflow-y: auto;
     font-family: 'Caveat', cursive;
     font-size: 26px;
     line-height: 30px;            /* matches rule cycle exactly */
-    color: #3a3020;               /* lighter brown for better readability */
+    color: #5a4a3a;               /* much lighter brown for better readability */
     position: relative;
     z-index: 1;
   }
@@ -242,7 +242,7 @@ overflow-y: auto;
     box-shadow: 0 6px 24px rgba(0,0,0,0.6);
     position: relative;
     text-align: center;
-    z-index: 2;                   /* sits above the flower layer */
+    z-index: 10;                   /* increased to ensure it sits above the flower layer */
   }
   .label-card::before {
     content: '?';
@@ -602,6 +602,7 @@ overflow-y: auto;
 <section class="screen photo-wrap visible" id="screen5">
   <div class="photo-frame">
     <img src="assets/64604871-4301-4270-9C9C-BDE8716E6D23_1_105_c.jpeg" style="width:100%; display:block;">
+    <div class="photo-frame-caption">Us yesterday, us tomorrow.</div>
   </div>
 </section>
 

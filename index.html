@@ -718,14 +718,21 @@ function toggleScreen4() {
   const flowers = document.getElementById('flowerLayer');
   const reveal  = document.getElementById('loveReveal');
 
+  console.log('Screen 4 toggle clicked. Currently playing:', screen4Playing);
+  console.log('Button element:', btn);
+  console.log('Flowers element:', flowers);
+  console.log('Reveal element:', reveal);
+
   if (!screen4Playing) {
     // ?? PLAY ??
     screen4Playing = true;
     btn.classList.add('playing');
+    console.log('Starting Screen 4 playback');
 
     // 1. Start flowers blooming (staggered)
     flowers.classList.add('visible');
     const paths = flowers.querySelectorAll('.f-path');
+    console.log('Found flower paths:', paths.length);
     paths.forEach((p, i) => {
       setTimeout(() => p.classList.add('drawn'), i * 120);
     });
@@ -735,13 +742,19 @@ function toggleScreen4() {
     setTimeout(() => reveal.classList.add('open'), revealDelay);
 
     // 3. Play MP3
+    console.log('Attempting to load audio from:', mp3Url);
     screen4Audio = new Audio(mp3Url);
-    screen4Audio.play();
+    screen4Audio.play().then(() => {
+      console.log('Screen 4 audio playing successfully');
+    }).catch(err => {
+      console.error('Screen 4 audio play error:', err);
+    });
 
   } else {
     // ?? PAUSE ??
     screen4Playing = false;
     btn.classList.remove('playing');
+    console.log('Pausing Screen 4');
 
     // reset flowers
     flowers.classList.remove('visible');
@@ -765,25 +778,41 @@ function toggleScreen8() {
   const moonLayer = document.getElementById('moonLayer');
   const moon = document.getElementById('moon');
 
+  console.log('Screen 8 toggle clicked. Currently playing:', screen8Playing);
+  console.log('Button element:', btn);
+  console.log('Moon layer element:', moonLayer);
+  console.log('Moon element:', moon);
+
   if (!screen8Playing) {
     // ?? PLAY ??
     screen8Playing = true;
     btn.classList.add('playing');
+    console.log('Starting Screen 8 playback');
 
     // 1. Show moon layer
     moonLayer.classList.add('visible');
+    console.log('Moon layer visible class added');
     
     // 2. Start moon growing after a brief delay
-    setTimeout(() => moon.classList.add('growing'), 300);
+    setTimeout(() => {
+      moon.classList.add('growing');
+      console.log('Moon growing class added');
+    }, 300);
 
     // 3. Play MP3
+    console.log('Attempting to load audio from:', mp3Url8);
     screen8Audio = new Audio(mp3Url8);
-    screen8Audio.play();
+    screen8Audio.play().then(() => {
+      console.log('Screen 8 audio playing successfully');
+    }).catch(err => {
+      console.error('Screen 8 audio play error:', err);
+    });
 
   } else {
     // ?? PAUSE ??
     screen8Playing = false;
     btn.classList.remove('playing');
+    console.log('Pausing Screen 8');
 
     // reset moon
     moonLayer.classList.remove('visible');
